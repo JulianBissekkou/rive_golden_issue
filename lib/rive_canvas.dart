@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rive/rive.dart' as rive;
 
@@ -54,12 +55,18 @@ class _RiveCanvasState extends State<RiveCanvas> {
       child: SizedBox(
         width: widget.width,
         height: widget.height,
-        child: controller == null
-            ? const SizedBox()
-            : rive.RiveWidget(
-                key: ValueKey(controller),
-                controller: controller,
-              ),
+        child:
+            controller == null
+                ? const CircularProgressIndicator()
+                : Container(
+                  color: Colors.red,
+                  padding: EdgeInsets.all(16),
+                  margin: EdgeInsets.all(16),
+                  child: rive.RiveWidget(
+                    key: ValueKey(controller),
+                    controller: controller,
+                  ),
+                ),
       ),
     );
   }
@@ -78,6 +85,6 @@ class _RiveCanvasState extends State<RiveCanvas> {
   }
 
   Future<rive.File> _loadAsset(String path) async {
-    return (await rive.File.asset(path, riveFactory: rive.Factory.rive))!;
+    return (await rive.File.asset(path, riveFactory: rive.Factory.flutter))!;
   }
 }
